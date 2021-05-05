@@ -1,27 +1,26 @@
+import buildClient from "../api/build-client";
 import axios from "axios";
 
 const Index = (props) =>{
 
+  const onClick = async ()=>{
+    console.log("click")
+    const response = await axios.post("/api/tickets");
+    console.log(response.data)
+  
+      }
   console.log(props);
-
-  return <h1>Langind y te saludo</h1>
+  return <button onClick={onClick}> click</button>
+  //return props.currentUser ? <h1>You Are Sign In</h1>: <h1>You are not Sign In</h1>
 }
 
-Index.getInitialProps = async ({ req }) =>{
-  
-  const baseURL = "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local";
-  
-  if(typeof window === undefined){
+Index.getInitialProps = async context => {
+    console.log("LANDING")
+    const client = buildClient(context);
+    const { data } = await client.get("/api/users/currentuser");
     
-    console.log("entra al server?")
-    
-  } else {
-    console.log(typeof window)
-    console.log("entra al browser")
-  
-  }
+    return data
 
-return {}
 }
 
 export default Index;
