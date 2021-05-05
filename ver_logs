@@ -1,0 +1,1 @@
+kubectl logs --follow -n ingress-nginx ingress-nginx-controller-5d88495688-lgxds

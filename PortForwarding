@@ -1,0 +1,1 @@
+kubectl port-forward nats-depl-56ff7f9699-ls2lk 4222:4222 
