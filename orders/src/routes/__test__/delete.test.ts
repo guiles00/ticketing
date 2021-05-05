@@ -19,17 +19,18 @@ it('marks an order as cancelled', async () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 
-  // make a request to cancel the order
+    // make a request to cancel the order
   await request(app)
     .delete(`/api/orders/${order.id}`)
     .set('Cookie', user)
     .send()
     .expect(204);
 
-  // expectation to make sure the thing is cancelled
-  const updatedOrder = await Order.findById(order.id);
+  
+    // expectation to make sure the thing is cancelled
+    const updatedOrder = await Order.findById(order.id);
 
-  expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
+   expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
 
 it.todo('emits a order cancelled event');

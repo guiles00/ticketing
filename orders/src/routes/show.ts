@@ -1,18 +1,23 @@
-import { NotFoundError } from "@guilestickets/common";
+import { NotAuthorizedError, NotFoundError } from "@guilestickets/common";
 import express, { Request, Response } from "express";
-//import { Ticket } from "../models/ticket";
+import { requireAuth } from "@guilestickets/common";
+import { Order } from "../models/order";
 
 const router = express.Router();
 
-// router.get("/api/tickets/:id", async (req: Request, res: Response) => {
+router.get("/api/orders/:orderId", async (req: Request, res: Response) => {
  
-//   const ticket = await Ticket.findById(req.params.id);
+  const order = await Order.findById(req.params.orderId).populate("ticket");
 
-//   if(!ticket) {
-//     throw new NotFoundError();
-//   }
+  if(!order) {
+    throw new NotFoundError();
+  }
 
-//   res.send(ticket);
-// });
+  if(order.userId !== req.currentUser!.id){
+    throw new NotAuthorizedError();
+  }
+  
+  res.send(order);
+});
 
 export { router as showOrderRouter }
