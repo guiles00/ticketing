@@ -1,7 +1,10 @@
-// import request from 'supertest';
-// import { app } from '../../app';
-// import { Ticket } from '../../models/ticket';
-// import { Order, OrderStatus } from '../../models/order';
+import request from 'supertest';
+import { app } from '../../app';
+import { Ticket } from '../../models/ticket';
+//import { Order, OrderStatus } from '../../models/order';
+it("",()=>{
+
+});
 
 // it('marks an order as cancelled', async () => {
 //   // create a ticket with Ticket Model
@@ -10,7 +13,7 @@
 //     price: 20,
 //   });
 //   await ticket.save();
-
+// |
 //   const user = global.signin();
 //   // make a request to create an order
 //   const { body: order } = await request(app)
