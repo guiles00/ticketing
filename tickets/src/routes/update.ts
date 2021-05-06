@@ -1,4 +1,4 @@
-import { validateRequest, NotFoundError,requireAuth, NotAuthorizedError } from "@guilestickets/common";
+import { validateRequest, NotFoundError,requireAuth, NotAuthorizedError, BadRequestError } from "@guilestickets/common";
 import express, { Request, Response } from "express";
 import { Ticket } from "../models/ticket";
 import { body } from "express-validator";
@@ -22,6 +22,10 @@ validateRequest
 
   if(!ticket) {
     throw new NotFoundError();
+  }
+
+  if(ticket.orderId){
+    throw new BadRequestError("Cannot edit a reserved ticket");
   }
 
   if(ticket.userId!== req.currentUser!.id){
