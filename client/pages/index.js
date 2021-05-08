@@ -1,26 +1,43 @@
-import buildClient from "../api/build-client";
 import axios from "axios";
+import Link from "next/link";
 
-const Index = (props) =>{
+const Index = ({ currentUser, tickets }) =>{
 
-  const onClick = async ()=>{
-    console.log("click")
-    const response = await axios.post("/api/tickets");
-    console.log(response.data)
-  
-      }
-  console.log(props);
-  return <button onClick={onClick}> click</button>
-  //return props.currentUser ? <h1>You Are Sign In</h1>: <h1>You are not Sign In</h1>
+  const ticketList = tickets.map(ticket => {
+    return (
+      <tr key={ticket.id}>
+        <td>{ticket.title}</td>
+        <td>{ticket.price}</td>
+        <td>
+          <Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+            <a>View</a>
+          </Link>
+        </td>
+      </tr>
+    )
+  })
+
+  return (<div>
+    <h1>Tickets</h1>
+    <table className="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ticketList}
+      </tbody>
+    </table>
+  </div>);
 }
 
-Index.getInitialProps = async context => {
-    console.log("LANDING")
-    const client = buildClient(context);
-    const { data } = await client.get("/api/users/currentuser");
-    
-    return data
+Index.getInitialProps = async (context, client, currentUser) => {
+  const { data } = await client.get("/api/tickets");
 
+  return { tickets: data }
 }
 
 export default Index;
