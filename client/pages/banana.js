@@ -5,5 +5,4 @@ const Banana = () =>{
     <h1>Banana2</h1>
     </div>
 }
-
 export default Banana;
