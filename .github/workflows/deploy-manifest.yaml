@@ -15,4 +15,4 @@ jobs:
         with:
           token: c25379e7005524610d4757ba349a91d416824efaeb19228d3f72aa3461690d22
       - run: doctl kubernetes cluster kubeconfig save ticketing
-      - run: kubectl apply -f infra/k8s
+      - run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod
