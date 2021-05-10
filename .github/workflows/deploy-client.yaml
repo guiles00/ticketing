@@ -1,0 +1,24 @@
+name: deploy-client
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "client/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd client && docker build -t gcaserotto/client .
+      - run: docker login -u gcaserotto -p Epaapcsnha622
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push gcaserotto/client
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: c25379e7005524610d4757ba349a91d416824efaeb19228d3f72aa3461690d22
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      - run: kubectl rollout restart deployment client-depl
